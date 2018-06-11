@@ -1,0 +1,547 @@
+#!/bin/bash
+# CS 218
+# Assignment #9 test script.
+
+# ----------
+# Initial checks.
+#	Ensure executable file exists.
+
+if [ -z $1 ]; then
+	echo "Error, must provide executable file name."
+	exit
+fi
+
+if [ ! -e $1 ] || [ ! -x $1 ]; then
+	echo "Error, unable to find $1 executable file."
+	exit
+fi
+
+# ----------
+# Begin tests.
+
+bolded=`tput bold`
+normal=`tput sgr0`
+echo -e "\\n${bolded}Assignment #9 Test Utility${normal}\\n"
+
+echo -e "     Executes program wih pre-defined input."
+echo -e "     Compares program output to known correct results.\n"
+echo -e "     Output for each execution is placed in ${bolded}tmp<testNum>${normal} file."
+echo -e "     Correct output in ${bolded}mstr<testNum>${normal} file.\n"
+echo -e "     Press return when ready to begin\n"
+read
+echo -e "\\n${bolded}Assignment #9 Begin Tests${normal}\\n"
+
+# ---------------------------------
+
+./$1 >tmp1.txt << EOF
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+4a
+4b
+4c
+4d
+4e
+4f
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+5a
+5b
+5c
+5d
+5e
+5f
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+6a
+6b
+6c
+6d
+6e
+6f
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+7A
+7B
+7C
+7D
+7E
+7F
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+8A
+8b
+8c
+8D
+8E
+8F
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+9a
+9b
+9c
+9d
+9e
+9f
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+10a
+10b
+10c
+10d
+10e
+10f
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+11a
+11b
+11c
+11d
+11e
+11F
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+12a
+12b
+12c
+12d
+12e
+12f
+130
+01
+02
+03
+04
+05
+06
+07
+08
+09
+0a
+0b
+0c
+0d
+0e
+0f
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+1a
+1b
+1c
+1d
+1e
+1f
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+2A
+2B
+2C
+2D
+2E
+2F
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+3A
+3B
+3C
+3D
+3E
+3F
+
+EOF
+
+if `diff tmp1.txt mstr1.txt >/dev/null` ; then
+	echo "Test #1 - Successful"
+else
+	echo -e "Test #1 - Unsuccessful\n"
+	diff tmp1.txt mstr1.txt
+fi
+
+# ---------------------------------
+
+./$1 >tmp2.txt << EOF
+008a
+     000091
+ 00001a
+    0D4
+00001a6
+              0000000000001B5
+0000000000000000000000000000165
+      2b4
+1e6
+       000001a3
+1f4
+      19e
+01c1
+                            03f2
+   00169
+  128
+   000000000000000000000017a
+  1a6
+c
+10f
+1f
+f1
+af
+EOF
+#
+if `diff tmp2.txt mstr2.txt >/dev/null` ; then
+	echo "Test #2 - Successful"
+else
+	echo -e "Test #2 - Unsuccessful\n"
+	diff tmp2.txt mstr2.txt
+fi
+
+# ---------------------------------
+
+./$1 >tmp3.txt << EOF
+ 000000000000000000001b5
+     0000000000000000000112186
+0000000000000000000019c
+  000000000000000000001b7
+00000000000000000000x1143
+ 00000000000000000000a26
+q
+F
+  000-5
+   0008
+  0d
+zilch
+00000000000000g295
+   000000000000002d5
+000000000000004a
+    00000000000000b
+00000000000000h611
+          00000000000000711f
+00000000000000E341
+   000000000000004a89
+0000000000000014d
+  0000000000000017b
+ 0019c
+00000000000000000000048d
+  0000000000000000000001231a01
+ 00000000000000z0000002a1
+   00000000000 0000000000011s1
+ 00000000000000000000039b
+   00000000000000000000e2
+00000000000000000000161E1
+   00000000000000000000028x3
+0000000000000000000001f1
+   0000000000000000000009*141
+0000000000000000000002e1
+    0000000000000000000001f2
+none
+0000000000000000000003a6
+
+10d
+
+EOF
+
+if `diff tmp3.txt mstr3.txt >/dev/null` ; then
+	echo "Test #3 - Successful"
+else
+	echo -e "Test #3 - Unsuccessful\n"
+	diff tmp3.txt mstr3.txt
+fi
+
+# ---------------------------------
+
+./$1 >tmp4.txt << EOF
+010d
+          10a
+  12d
+0000a2
+00000a1
+b1
+c2
+00010d
+026d
+1d1
+a8
+    e2
+   05a
+0161
+212
+016f
+0000462
+036f
+2a7
+0251
+01F1
+01a1
+01a
+01b5
+1b9
+00192
+01a1
+02a1
+2ff
+001a1
+  a2
+01d6
+  2f1
+ f5
+0125
+00c1
+0016
+0182
+0g
+0136
+191
+    1e2
+00000005f
+776767676
+211
+a1
+*
+1c8
+000b9
+b2
+121
+172
++10
+56
+1c2
+1ad
+2a9
+-1a
+a9
+22c
+1d
+0d4
+14d
+30d
+0112
+19a
+a8
+
+f9
+
+EOF
+
+if `diff tmp4.txt mstr4.txt >/dev/null` ; then
+	echo "Test #4 - Successful"
+else
+	echo -e "Test #4 - Unsuccessful\n"
+	diff tmp4.txt mstr4.txt
+fi
+
+# ---------------------------------
+
+./$1 >tmp5.txt << EOF
+1
+2
+
+EOF
+#
+if `diff tmp5.txt mstr5.txt >/dev/null` ; then
+	echo "Test #5 - Successful"
+else
+	echo -e "Test #5 - Unsuccessful\n"
+	diff tmp5.txt mstr5.txt
+fi
+
+# ---------------------------------
+
+./$1 >tmp6.txt << EOF
+125
+1a0
+1b6
+1e6
+3a1
+nada
+none
+d
+1
+9
+1a9
+00000000000
+18f
+1a1
+311 12
+123"3"
+34=0
+13]
+we1679
+230l
+i3
+1211
+12h21
+25 001
+13x42
+12b6
+1325
+1e2
+1a4
+f
+
+EOF
+#
+if `diff tmp6.txt mstr6.txt >/dev/null` ; then
+	echo "Test #6 - Successful"
+else
+	echo -e "Test #6 - Unsuccessful\n"
+	diff tmp6.txt mstr6.txt
+fi
+
+# ---------------------------------
+
+./$1 >tmp7.txt << EOF
+
+
+EOF
+#
+if `diff tmp7.txt mstr7.txt >/dev/null` ; then
+	echo "Test #7 - Successful"
+else
+	echo -e "Test #7 - Unsuccessful\n"
+	diff tmp7.txt mstr7.txt
+fi
+
+# ---------------------------------
+
+./$1 >tmp8.txt << EOF
+000001
+002
+00003
+04
+005
+006
+  007
+ 08
+     09
+         0000A
+   b
+      C
+    00000000D
+E
+f
+        0000000000010
+      11
+16
+   0012
+0019
+ 0014
+000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005
+0002d5
+ 00021a
+   25
+0023
+    000000000000000000000000000000000
+0000000000000000000000000000000000000000000000000000x000000000000000000000000000000000000000000
+24
+56
+d
+
+EOF
+#
+if `diff tmp8.txt mstr8.txt >/dev/null` ; then
+	echo "Test #8 - Successful"
+else
+	echo -e "Test #8 - Unsuccessful\n"
+	diff tmp8.txt mstr8.txt
+fi
+
+# ---------------------------------
+# Done
+
+echo
+echo "Tests Complete"
+
+
+

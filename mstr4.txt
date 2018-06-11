@@ -1,0 +1,38 @@
+--------------------------------------------------
+CS 218 - Assignment #9
+
+Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Error, invalid number. Please re-enter.
+Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Error, number of out of range. Please re-enter.
+Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Error, invalid number. Please re-enter.
+Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): --------------------------------------------------
+
+Program Results
+
+Sorted X List: 
+22  26  90  161  162  168  178  194  212  269  
+293  301  310  370  410  417  441  450  456  482  
+497  529  530  556  621  679  681  753  767  781  
+1122  
+
+   X Minimum =            22
+    X Median =           417
+   X Maximum =          1122
+       X Sum =         12928
+   X Average =           417
+
+Sorted Y List: 
+29  86  95  161  162  168  169  177  185  193  
+226  245  266  269  274  289  333  353  367  386  
+401  402  417  417  429  437  465  470  593  673  
+879  
+
+   Y Minimum =            29
+    Y Median =           289
+   Y Maximum =           879
+       Y Sum =         10016
+   Y Average =           323
+
+Correlation  Coefficient =  0.994524122904099
+

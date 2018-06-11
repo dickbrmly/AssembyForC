@@ -1,0 +1,43 @@
+--------------------------------------------------
+CS 218 - Assignment #9
+
+Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Error, number of out of range. Please re-enter.
+Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Error, number of out of range. Please re-enter.
+Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Error, number of out of range. Please re-enter.
+Enter Y Value (hex): Error, number of out of range. Please re-enter.
+Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): --------------------------------------------------
+
+Program Results
+
+Sorted X List: 
+1  293  417  420  425  438  929  
+
+   X Minimum =             1
+    X Median =           420
+   X Maximum =           929
+       X Sum =          2923
+   X Average =           417
+
+Sorted Y List: 
+9  13  15  399  416  482  486  
+
+   Y Minimum =             9
+    Y Median =           399
+   Y Maximum =           486
+       Y Sum =          1820
+   Y Average =           260
+
+Correlation  Coefficient =  0.878801965560355
+

@@ -1,0 +1,29 @@
+--------------------------------------------------
+CS 218 - Assignment #9
+
+Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): --------------------------------------------------
+
+Program Results
+
+Sorted X List: 
+12  26  31  138  175  357  361  378  422  449  
+486  500  
+
+   X Minimum =            12
+    X Median =           359
+   X Maximum =           500
+       X Sum =          3335
+   X Average =           277
+
+Sorted Y List: 
+145  212  241  250  271  296  414  419  422  437  
+692  1010  
+
+   Y Minimum =           145
+    Y Median =           355
+   Y Maximum =          1010
+       Y Sum =          4809
+   Y Average =           400
+
+Correlation  Coefficient =  0.939047721655779
+

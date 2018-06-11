@@ -1,0 +1,46 @@
+--------------------------------------------------
+CS 218 - Assignment #9
+
+Enter X Value (hex): Enter Y Value (hex): Error, number of out of range. Please re-enter.
+Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Error, number of out of range. Please re-enter.
+Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Enter X Value (hex): Error, invalid number. Please re-enter.
+Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Error, invalid number. Please re-enter.
+Enter X Value (hex): Error, invalid number. Please re-enter.
+Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Error, number of out of range. Please re-enter.
+Enter Y Value (hex): Error, number of out of range. Please re-enter.
+Enter Y Value (hex): Error, number of out of range. Please re-enter.
+Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Error, number of out of range. Please re-enter.
+Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Error, number of out of range. Please re-enter.
+Enter Y Value (hex): Error, invalid number. Please re-enter.
+Enter Y Value (hex): Enter X Value (hex): Error, invalid number. Please re-enter.
+Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Error, invalid number. Please re-enter.
+Enter X Value (hex): Enter Y Value (hex): Must enter a matching Y value (hex).
+Enter Y Value (hex): Enter X Value (hex): --------------------------------------------------
+
+Program Results
+
+Sorted X List: 
+8  11  226  379  437  439  725  737  934  1165  
+
+   X Minimum =             8
+    X Median =           438
+   X Maximum =          1165
+       X Sum =          5061
+   X Average =           506
+
+Sorted Y List: 
+13  15  74  269  333  412  412  497  498  923  
+
+   Y Minimum =            13
+    Y Median =           372
+   Y Maximum =           923
+       Y Sum =          3446
+   Y Average =           344
+
+Correlation  Coefficient =  0.983010953581247
+

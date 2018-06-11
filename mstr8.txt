@@ -1,0 +1,32 @@
+--------------------------------------------------
+CS 218 - Assignment #9
+
+Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Error, user input exceeded length. Please re-enter.
+Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Error, number of out of range. Please re-enter.
+Enter Y Value (hex): Error, user input exceeded length. Please re-enter.
+Enter Y Value (hex): Enter X Value (hex): Enter Y Value (hex): Enter X Value (hex): --------------------------------------------------
+
+Program Results
+
+Sorted X List: 
+1  3  5  7  9  11  13  15  17  18  
+20  35  86  538  
+
+   X Minimum =             1
+    X Median =            14
+   X Maximum =           538
+       X Sum =           778
+   X Average =            55
+
+Sorted Y List: 
+2  4  6  8  10  12  13  14  16  22  
+25  36  37  725  
+
+   Y Minimum =             2
+    Y Median =            13
+   Y Maximum =           725
+       Y Sum =           930
+   Y Average =            66
+
+Correlation  Coefficient =  0.994056143114029
+

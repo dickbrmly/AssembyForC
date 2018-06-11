@@ -1,0 +1,648 @@
+
+;  CS 218 - Assignment 8
+;  Procedures Template.
+
+; --------------------------------------------------------------------
+;  Write assembly language procedures.
+
+;  The procedure, bucketSort(), sorts the numbers into ascending
+;  order (small to large).  Uses the insertion sort algorithm from
+;  assignment #7 (modified to sort in ascending order).
+
+;  The procedure, basicStats(), finds the minimum, median, and maximum,
+;  sum, and average for a list of numbers.
+;  The median is determined after the list is sorted.
+
+;  The procedure, intSqrt(), computes the integer square root using
+;  Newtons Menthod.
+
+;  The procedure, corrCoefficient(), computes the correlation coefficient
+;  for the two data sets.  Final result is real in xmm0.
+
+
+;******************************************************************************
+section	.data
+
+; -----
+;  Define standard constants.
+
+TRUE            equ	1
+FALSE           equ	0
+
+EXIT_SUCCESS	equ	0       ; Successful operation
+
+STDIN				equ	0           ; standard input
+STDOUT				equ	1			; standard output
+STDERR				equ	2			; standard error
+
+SYS_read			equ	0			; system call code for read
+SYS_write			equ	1			; system call code for write
+SYS_open			equ	2			; system call code for file open
+SYS_close			equ	3			; system call code for file close
+SYS_fork			equ	57			; system call code for fork
+SYS_exit			equ	60			; system call code for terminate
+SYS_creat			equ	85			; system call code for file open/create
+SYS_time			equ	201			; system call code for get time
+
+LF                  equ	10
+SPACE								equ	" "
+NULL								equ	0
+ESC                 equ	27
+
+; -----
+;  Define program specific constants.
+
+SUCCESS         equ	0
+BADNUMBER       equ	1
+INPUTOVERFLOW		equ	2
+OUTOFRANGE      equ	3
+ENDOFINPUT      equ	4
+
+LIMIT           equ	1510
+SQRT_ITERATIONS	equ	50          ; My sqrt easily beats this
+
+MIN             equ	1
+MAX             equ	1500
+BUFFSIZE        equ	50			; 50 chars including NULL
+
+;  NO static local variables allowed...
+;******************************************************************************
+;******************************************************************************
+;  Read an ASCII hex number from the user
+
+;  Return codes:
+;	SUCCESS		Successful conversion
+;	BADNUMBER	Invalid input entered
+
+;	User entry character count exceeds maximum length
+;	OUTOFRANGE	Valid, but out of required range
+;	ENDOFINPUT	End of the input
+
+;  Call:
+;	status = readHexNum(&numberRead);
+
+;  Arguments Passed:
+;	1) numberRead, addr - rdi
+
+;  Returns:
+;	number read (via reference)
+;	status code (as above)
+;******************************************************************************
+section	.text
+;******************************************************************************
+;  			get a double word worth of ascii entries for C++ integer...
+;*******************************************************************************
+global  readHexNum
+readHexNum:
+
+push    rbp
+mov     rbp, rsp        ;store rsp location
+
+push    rbx
+push    rcx
+push    r8
+push    r10
+push    r11
+
+mov     r10, 0
+sub     rsp,BUFFSIZE	;move stack for the entry buffer
+
+mov     rbx, rbp		
+sub     rbx, BUFFSIZE	;rbx entry position 
+
+mov			rax, 0
+
+leadingzero:
+call    readchar		; loads memory starting rbx with entry
+mov     r10b,	byte [rbx]
+call    grabNibble		; r10b result and r9 flag
+
+cmp     r9, SPACE
+je      leadingzero     ;leading spaces or zeros
+cmp			r10b, 0
+je			leadingzero			;either element (space or zero)  is rejected
+cmp			r9, 	SUCCESS
+jne			failure
+
+add		eax, 	r10d		;load 10h place
+mov		rcx,	7
+
+loadnumber:
+call    readchar
+mov     r10b,byte [rbx]
+call    grabNibble		; r10b result and r9 flag
+cmp			r9, SUCCESS
+jne			testlf
+shl			eax, 4
+add			eax, r10d
+loop		loadnumber
+
+mov		r9, INPUTOVERFLOW ;dropped out loader to over flow
+
+
+testlf:
+
+cmp			r9, LF
+jne     failure
+cmp     eax, 0  ;nothing with a line feed therefore done.
+jne			passvalue
+
+mov     r9, ENDOFINPUT
+jmp			failure
+
+passvalue:
+mov     r9, SUCCESS
+mov    dword [rdi],eax
+mov    rax, r9
+
+failure:
+pop    r11
+pop    r10
+pop    r8
+pop    rcx
+
+push   rdi
+mov    rsp, rbp        ;store rsp location
+pop    rbp
+
+ret
+;******************************************************************************
+;  			convert nibble in r10b returning nibble in lower al
+;           and status in r9 register
+;*******************************************************************************
+global grabNibble
+grabNibble:
+
+push    rbp
+mov     rbp, rsp        ;store rsp location
+push    rbx
+push	rax
+
+cmp     r10b, LF
+je      linefeed
+
+cmp     r10b, NULL
+je      linefeed
+
+cmp     r10b, ESC
+je      linefeed
+
+cmp     r10b, SPACE
+jne     presson
+zeroit:
+mov     r10b, 30h
+
+presson:
+cmp     r10b, 40h
+ja      alpha
+
+sub     r10b, 30h
+cmp     r10b, 0
+jl      error
+jmp     done
+
+alpha:
+cmp     r10b, 60h
+ja      lowercase
+sub     r10b, 37h
+cmp     r10b, 0fh
+ja      error
+jmp     done
+
+lowercase:
+sub     r10b, 57h
+cmp     r10b, 0fh
+ja      error
+jmp     done
+
+error:
+mov     r9, BADNUMBER
+jmp     loadresult
+
+done:
+mov     r9,SUCCESS
+
+linefeed:
+cmp     rax, 0
+jne     loadresult
+mov     r9,ENDOFINPUT
+
+loadresult:
+
+pop		rax
+pop     rbx
+mov     rbp, rsp        ;store rsp location
+pop     rbp
+ret
+;******************************************************************************
+;  				read Character from standard in and return in al
+;*******************************************************************************
+global readchar
+readchar:
+
+push    rbp
+mov     rbp, rsp        ;store rsp location
+
+push    rax
+push    rdi
+push    rsi
+push    rdx
+push    r15
+
+mov     r15, rdi
+mov     rax, SYS_read
+mov     rdi, STDIN
+mov     rsi, rbx
+mov     rdx, 1
+syscall
+
+pop     r15
+pop     rdx
+pop     rsi
+pop     rdi
+pop     rax
+
+mov     rbp, rsp        ;store rsp location
+pop     rbp
+ret
+;******************************************************************************
+;  					Bucket sort procedure.
+;*******************************************************************************
+;  Bucket Sort Algorithm:
+
+;	for  i = 0 to (len-1)
+;	    count[i] = 0
+
+;	for  i = 0 to (len-1)
+;	    count[list[i]] = count[list[i]] + 1
+;	endFor
+
+;	p = 0
+;	for  i = 0 to (limit-1) do
+;	    if  count[i] <> 0  then
+;		for  j = 0 to count[i]-1
+;		    list[p] = i
+;		    p = p + 1
+;		endFor
+;	    endIf
+;	endFor
+;******************************************************************************
+;******************************************************************************
+;  Call:
+;	call bucketSort(list, len)
+
+;  Arguments Passed:
+;	1) list, addr - rdi
+;	2) length, value - rsi
+
+;  Returns:
+;	sorted list (list passed by reference)
+
+; preload for buffer clear
+;******************************************************************************
+;******************************************************************************
+global bucketSort
+bucketSort:
+
+push    rbp
+mov     rbp, rsp        ;store rsp location
+
+sub     rsp, LIMIT * 4
+
+push    rax
+push    rbx
+push    rcx
+push    rdx
+push    r8
+push    r9
+push    r10
+push    r15
+
+mov		rcx, LIMIT
+lea		rdx, dword[rbp - LIMIT * 4]
+;dec		rcx ;adjust for zero
+
+; erase the bucket buffer
+
+erase:
+mov		[rdx], dword 0
+add		rdx, 4
+loop	erase
+
+; preload for bucket load
+
+mov		rcx, rsi ;length
+
+lea		rdx, [rbp - LIMIT * 4] 	;bucket
+mov		rbx, rdi           		;list
+
+; load buckets using list values as offset
+; load the offset value plus one
+
+bucket:
+mov		r8, 0
+mov		r8d, dword [rbx]
+shl		r8, 2
+add		rdx, r8
+add		dword [rdx],1
+add		rbx, 4
+lea		rdx, [rbp - LIMIT * 4]
+loop	bucket     ;load the bucket
+
+; preload for of return sorted values
+; to list for descending approach to an
+; ascending list.
+
+mov		r9, 0
+mov		r8, 0
+
+mov		rcx, LIMIT
+dec		rcx             ;adjust for zero
+
+mov		r9, rsi         ; list length
+dec		r9              ;r9 pointing to list
+
+
+; exact same algorithm I'm just running the count
+; backwards to save registers, space, and execution time.
+
+lea     rdx, [rbp - LIMIT * 4]
+
+passvalues:
+mov		r8d, dword [rdx + rcx * 4]
+cmp		r8d, 0
+je 		empty
+
+innerloop:
+mov		dword [rdi + r9 * 4], ecx
+dec		r9
+dec		r8
+cmp		r8, 0
+je		empty
+jmp		innerloop
+
+empty:
+loop		passvalues
+
+mov     rdx, rbp
+sub     rdx, LIMIT * 4
+mov		r8d, dword [rdx + rcx * 4]
+cmp		r8d, 0
+je 		completed	
+
+zerovalue:
+mov     r9, rdi
+mov		dword [r9], ecx
+sub		r9, 4
+dec		r8
+cmp		r8, 0
+je		completed
+jmp		zerovalue
+
+completed:
+pop     r15
+pop     r10
+pop     r9
+pop     r8
+pop     rdx
+pop     rcx
+pop     rbx
+pop     rax
+
+mov     rsp, rbp        ;store rsp location
+pop     rbp
+
+ret
+;******************************************************************************
+;******************************************************************************
+;  Find basic statistical information for a list of integers:
+;	minimum, median, maximum, sum, and average
+
+;  Note, for an odd number of items, the median value is defined as
+;  the middle value.  For an even number of values, it is the integer
+;  average of the two middle values.
+
+;  Note, the list is already sorted.
+
+; -----
+;  Call:
+;	call basicStats(list, len, min, med, max, sum, ave)
+
+;  Arguments Passed:
+;	1) list, addr - rdi
+;	2) length, value - rsi
+;	3) minimum, addr - rdx
+;	4) median, addr - rcx
+;	5) maximum, addr - r8
+;	6) sum, addr - r9
+;	7) ave, addr - stack, rbp+16 ===r15
+
+; Returns:
+;	minimum, median, maximum, sum, and average
+;	via pass-by-reference (addresses on stack)
+;*******************************************************************************
+;*******************************************************************************
+global basicStats
+basicStats:
+
+push    rbp
+mov     rbp, rsp        ;store rsp location
+
+mov     r15, qword [rbp + 16]
+
+push    rax
+push    rbx
+push    rcx
+
+mov     eax, dword [rdi]
+mov     dword[rdx],eax              ;minimum
+
+lea     rbx,dword [rdi + rsi * 4]
+sub     rbx, 4
+mov		eax, dword [rbx]
+mov     dword[r8],eax               ;maximum
+
+mov		rbx, rsi      ;length
+shr		rbx, 1        ;div 2
+jc		noaverage
+
+mov     r10, rsi
+shl     r10, 1        ;account for doubles
+add     r10, rdi
+
+sub     r10, 4
+mov		eax, dword [r10]
+add     r10, 4
+add		eax, dword [r10]
+shr		eax, 1
+jmp		result
+
+noaverage:
+mov     r10,  rbx
+shl     r10,  2
+add     r10, rdi
+mov		eax, dword [r10]
+
+result:
+mov     dword [rcx], eax
+
+mov		rax, 0
+mov		rcx, 0
+mov		rcx, rsi
+dec     rcx
+
+accumulate:
+add     eax, [rdi + rcx * 4]
+loop	accumulate
+add     eax, [rdi + rcx * 4]
+ls
+mov     dword [r9], eax
+push    r9
+
+mov		edx, 0
+div		rsi
+mov		dword [r15], eax
+
+pop    rcx
+pop    rbx
+pop    rax
+
+mov    rsp, rbp
+pop    rbp
+ret
+
+; --------------------------------------------------------
+;  Function to calculate and return an integer estimate of
+;  the square root of a given number.
+
+;  To estimate the square root of a number, use the following
+;  algorithm:
+;	sqrt_est = number
+;	iterate 50 times
+;		sqrt_est = ((number/sqrt_est)+sqrt_est)/2
+
+; -----
+;  Call:
+;	ans = intSqrt(number)
+
+;  Arguments Passed:
+;	1) number, value - rdi
+
+;  Returns:
+;	square root value (in eax)
+;******************************************************************************
+global intSqrt
+intSqrt:
+
+push	r8
+push	r9
+push	rdx
+
+;run Newton for 50 cycles
+mov	rcx, 50
+
+
+mov	r8, rdi
+mov	r9, rdi
+
+closeIn:
+mov	rdx, 0
+mov	rax, r8
+div	r9
+add	rax, r9
+shr	rax, 1
+mov	r9, rax
+loop	closeIn
+
+solved:
+pop	rdx
+pop	r9
+pop	r8
+
+ret
+;*******************************************************************************
+;*******************************************************************************
+;  Function to calculate the correlation coefficient
+;  between two lists (of equal size).
+
+;  Note, returns real value in xmm0 register.
+
+; -----
+;  Call:
+;	r = corrCoefficient(xList, yList, len)
+
+;  Arguments Passed:
+;	1) xList, addr - rdi
+;	2) yList, addr - rsi
+;	3) length, value - rdx
+
+;  Returns:
+;	r value (in xmm0)
+
+
+;	YOUR CODE GOES HERE
+;*******************************************************************************
+;*******************************************************************************
+global corrCoefficient
+corrCoefficient:
+
+push    rbp
+mov     rbp, rsp
+
+push 	r8
+push	r9
+push	r10
+push	r11
+push 	rcx
+
+mov	r8,   0
+mov	r9,   0
+mov	r10,  0
+mov r11,  0
+mov	rcx,  0
+
+mov	rcx, rdx ;set loop length
+
+summation:
+mov rdx, 0
+mov rax, 0
+mov	eax, dword [rdi + r11 * 4]
+mul	dword [rsi + r11 * 4]
+add	r8, rax
+
+mov rdx, 0
+mov rax, 0
+mov	eax, dword [rdi + r11 * 4]
+mul	eax
+add	r9, rax
+
+mov rdx, 0
+mov rax , 0
+mov	eax, dword [rsi + r11 * 4]
+mul	eax
+add	r10, rax
+inc r11
+loop	summation
+
+mov rax, 0
+mov rax, r9
+mul r10
+
+mov rdi, rax
+call intSqrt
+
+cvtsi2sd	xmm0, r8
+cvtsi2sd	xmm1, rax
+divsd		xmm0, xmm1
+
+pop	rcx
+pop	r11
+pop	r10
+pop	r9
+pop	r8
+
+mov     rsp, rbp
+pop     rbp
+
+
+ret
