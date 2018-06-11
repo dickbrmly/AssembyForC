@@ -3,7 +3,7 @@
 ;  Procedures Template.
 
 ; --------------------------------------------------------------------
-;  Write assembly language procedures.
+;  Write assembly language procedures.  Richard Leroy Bromley
 
 ;  The procedure, bucketSort(), sorts the numbers into ascending
 ;  order (small to large).  Uses the insertion sort algorithm from
